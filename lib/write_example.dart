@@ -6,9 +6,11 @@ import 'dart:io';
 class RecordEditor {
 
   TextEditingController payloadController;
+  TextEditingController titleController;
 
   RecordEditor() {
     payloadController = TextEditingController();
+    titleController = TextEditingController();
   }
 }
 
@@ -30,12 +32,11 @@ class _WriteExampleScreenState extends State<WriteExampleScreen> {
 
   void _write(BuildContext context) async {
 
-
-
     List<NDEFRecord> records = _records.map((record) {
 
       var json = {
-        'data' : record.payloadController.text
+        'title': record.titleController.text,
+        'description' : record.payloadController.text
       };
 
       return NDEFRecord.type(
@@ -95,10 +96,18 @@ class _WriteExampleScreenState extends State<WriteExampleScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text("Record", style: Theme.of(context).textTheme.body2),
+
+                  TextFormField(
+                    controller: record.titleController,
+                    decoration: InputDecoration(
+                      hintText: "Title",
+                    ),
+                  ),
+
                   TextFormField(
                     controller: record.payloadController,
                     decoration: InputDecoration(
-                      hintText: "Enter data",
+                      hintText: "Enter description",
                     ),
                   )
                 ],
